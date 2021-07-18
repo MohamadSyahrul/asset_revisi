@@ -4,8 +4,10 @@
     <title></title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
-    
-    <link href="{{ asset('assets/plugins/datatables-net/dataTables.bootstrap4.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
+
+    {{-- <link href="{{ asset('assets/plugins/datatables-net/dataTables.bootstrap4.css') }}" rel="stylesheet" /> --}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
     <style type="text/css">
       @page { margin: 1em; }
@@ -18,22 +20,17 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="card">
-                   @if(session()->get('sukses'))
-                        <div class="alert alert-success">
-                            {{session()->get('sukses')}}
-                        </div>
-                  @endif
                   <div class="card-body">
-                    @foreach ($aset as $item)
+                    <?php foreach($aset as $item){ ?>
                     <div class="container-fluid d-flex justify-content-between">
                       <div class="col-lg-3 pl-0">
-                        <a href="#" class="noble-ui-logo d-block mt-3">Sim<span>Aset</span></a>                 
+                        <a href="#" class="noble-ui-logo d-block mt-3">Sim<span>Aset</span></a>
                         <p class="text-uppercase mt-1 mb-1"><span class="text-muted">Nama Aset :</span> <br> <b>{{$item->nama_asset}}</b></p>
                         <p><span class="text-muted"> Lokasi Aset </span> :<br>{{$lokasi}}</p>
                         <h5 class="mt-3 text-muted">Merk atau Type :</h5>
                         <p>{{$item->merk_aset}}</p>
                         <h5 class="mt-3 text-muted">Harga Total</h5>
-                        <p class="text-primary"><b> Rp.{{$item->total}}</b></p> 
+                        <p class="text-primary"><b> Rp.{{$item->total}}</b></p>
                       </div>
                       <div class="col-lg-3 pr-0">
                         <h4 class="font-weight-medium text-uppercase text-right mt-4 mb-2">
@@ -67,7 +64,7 @@
                                 <td>{{$item->kode_satuan}}</td>
                                 <td>{{$item->koordinat_asset}}</td>
                                 <td>{{$penyusutan . ' Tahun'}}</td>
-                                <td>{{$item->quantity}}</td>                    
+                                <td>{{$item->quantity}}</td>
                                 <td>{{$item->keterangan . '%'}}</td>
                                 <td>{{$item->keadaan_awal ? 'Baik' : 'Kurang'}}</td>
 
@@ -76,17 +73,17 @@
                           </table>
                         </div>
                     </div>
-                    
-                    @endforeach
+
+                    <?php } ?>
                   </div>
                 </div>
               </div>
             </div>
         </div>
- 
 
-<script src="{{ asset('js/app.js') }}"></script>
-<script src="{{ asset('assets/js/template.js') }}"></script>
+
+{{-- <script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('assets/js/template.js') }}"></script> --}}
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 </body>

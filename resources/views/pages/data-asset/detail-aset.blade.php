@@ -20,46 +20,69 @@
       <div class="card-body">
         @foreach ($aset as $item)
         <div class="container-fluid d-flex justify-content-between">
-          <div class="col-lg-3 pl-0">
-            <a href="#" class="noble-ui-logo d-block mt-3">Sim<span>Aset</span></a>                 
-            <p class="text-uppercase mt-1 mb-1"><span class="text-muted">Nama Aset :</span> <br> <b>{{$item->nama_asset}}</b></p>
-            <p><span class="text-muted"> Lokasi Aset </span> :<br>{{$lokasi}}</p>
-            <h5 class="mt-5 mb-2 text-muted">Merk atau Type :</h5>
-            <p>{{$item->merk_aset}}</p>
-            <h5 class="mt-3 mb-2 text-muted">Harga Total</h5>
-            <p class="text-primary"><b> Rp.{{$item->total}}</b></p> 
+          <div class="col-lg-6 pl-0">
+            <a href="#" class="noble-ui-logo d-block mt-3">Sim<span>Aset</span></a>
+
+            <h5 class="my-2 mx-5"><span class="text-muted">Nama Aset : </span>{{$item->nama_asset}}</h5>
+            <h5 class="my-2 mx-5"> <span class="text-muted"> Merk atau Type : </span> {{$item->merk_aset}}</h5>
+            <h5 class="my-2 mx-5"><span class="text-muted">Kategori : </span> {{$kategori}}</h5>
+            <h5 class="my-2 mx-5"><span class="text-muted"> Lokasi Aset : </span> {{$lokasi}}</h5>
+
+            <div class="table-responsive w-100">
+                <table class="table">
+                    <thead>
+                        <tr class="text-center">
+                            <th><h5 class="text-muted text-capitalize"> Harga </h5></th>
+                            <th><h5 class="text-muted text-capitalize"> Kuantitas </h5></th>
+                            <th><h5 class="text-muted text-capitalize text-primary"> Total </h5></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-center">
+                            <td> <h5> Rp.{{$item->nilai_asset}}</h5></td>
+                            <td> <h5> {{$item->quantity}}</h5></td>
+                            <td> <h5> Rp.{{$item->total}} </h5></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
           </div>
-          <div class="col-lg-3 pr-0">
-            <h4 class="font-weight-medium text-uppercase text-right mt-4 mb-2">{{$qrCode}}</h4>
-            <h6 class="text-right mb-5 pb-4"># {{$item->kode_asset}}</h6>
-            <p class="text-right mb-1">Harga Satuan :</p>
-            <h4 class="text-right font-weight-normal">Rp {{$item->nilai_asset}}</h4>
-            <h6 class="mb-0 mt-3 text-right font-weight-normal mb-2"><span class="text-muted">Kategori Aset :</span> {{$kategori}}</h6>
-            <h6 class="text-right font-weight-normal"><span class="text-muted">Batas Pemakaian :</span> {{$item->batas_pemakaian}} Tahun</h6>
-            <h6 class="text-right font-weight-normal"><span class="text-muted">Tanggal Terima :</span> {{date('d F Y',strtotime($item->tanggal_terima))}}</h6>
+          <div class="col-lg-6 pr-0">
+            <h5 class="font-weight-medium text-uppercase text-right mt-5">{{$qrCode}}</h5>
+            <h5 class="text-right my-2">{{$item->kode_asset}}</h5>
+            <h5 class="text-right my-2"><span class="text-muted">Batas Pemakaian : </span> {{$item->batas_pemakaian}} Tahun</h5>
+            <h5 class="text-right my-2"><span class="text-muted">Tanggal Terima : </span> {{date('d F Y',strtotime($item->tanggal_terima))}}</h5>
           </div>
         </div>
-        <div class="container-fluid mt-5 d-flex justify-content-center w-100">
+        <div class="container-fluid mt-4 d-flex justify-content-center w-100">
           <div class="table-responsive w-100">
               <table class="table table-bordered">
                 <thead>
                   <tr>
                       <th>Jenis Aset</th>
-                      <th>Kode Satuan</th>
+                      <th>Histori Satuan</th>
+                      <th>Satuan Saat ini</th>
                       <th>Koordinat Aset</th>
                       <th>Penyusutan Aset</th>
-                      <th>Kuantitas Aset</th>
-                      <th>Keterangan Penyusutan</th>
-                      <th>Keadaan Awal</th>
+                      <th>Keterangan</th>
+                      <th>Keadaan</th>
                     </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>{{$item->jenis_asset ? 'Aset Tetap' : 'Aset Bergerak'}}</td>
-                    <td>{{$item->kode_satuan}}</td>
+                    @if (!$item->histori_satuan)
+                        <td> - </td>
+                    @endif
+                    @foreach ($satker as $satuan )
+                        @if ($satuan->kode_satuan == $item->histori_satuan)
+                            <td>{{$satuan->nama_satuan}}</td>
+                        @elseif ($satuan->kode_satuan == $item->kode_satuan)
+                            <td>{{$satuan->nama_satuan}}</td>
+                        @endif
+                    @endforeach
                     <td>{{$item->koordinat_asset}}</td>
                     <td>{{$penyusutan . ' Tahun'}}</td>
-                    <td>{{$item->quantity}}</td>                    
                     <td>{{$item->keterangan . '%'}}</td>
                     <td>{{$item->keadaan_awal ? 'Baik' : 'Kurang'}}</td>
                   </tr>
@@ -69,21 +92,19 @@
         </div>
         <div class="container-fluid mt-5 w-100">
           <div class="row">
-            <div class="col-md-6 ml-auto">
+            <div class="col-md-12 ml-auto">
                 <div class="table-responsive">
                   <table class="table">
-                      <tbody>
+                      <tbody class="text-center">
                         @foreach ($foto as $item)
                         <tr>
                           <td>Foto Utama</td>
-                          <td> <img src="{{ asset('img/'.$item->foto_utama) }}" class="img-thumbnail"></td>
-                        </tr>
-                        <tr>
                           <td>Foto Aset 1</td>
-                          <td> <img src="{{ asset('img/'.$item->foto_1) }}" class="img-thumbnail"></td>
+                          <td>Foto Aset 2</td>
                         </tr>
                         <tr>
-                          <td>Foto Aset 2</td>
+                          <td> <img src="{{ asset('img/'.$item->foto_utama) }}" class="img-thumbnail"></td>
+                          <td> <img src="{{ asset('img/'.$item->foto_1) }}" class="img-thumbnail"></td>
                           <td> <img src="{{ asset('img/'.$item->foto_2)  }}" class="img-thumbnail"></td>
                         </tr>
                         @endforeach

@@ -17,7 +17,7 @@
                 @csrf
                   <div class="form-group">
                       <label for="kode">Kode Aset</label>
-                      <input type="text" class="form-control" name="kode_asset" id="kode" value="Kode Aset(auto generate)" disabled />
+                      <input type="text" class="form-control" name="kode_asset" id="kode" value="{{old('kode')}}" placeholder="Otomatis Generate Jika Kosong" />
                   </div>
                   <div class="form-group">
                     <label>Jenis Aset
@@ -99,9 +99,9 @@
                       <label for="rupiah">Nilai Aset</label>
                       <input class="form-control" id="rupiah" min="0" placeholder="Rp." type="number" name="nilai_asset" value="{{old('nilai_asset')}}" required/>
                       <figcaption  class="text-danger">*Contoh : 500000</figcaption>
-                      
+
                   </div>
-                  
+
                   <div class="form-group">
                       <label for="merk">Merk/Type Aset</label>
                       <input class="form-control"  placeholder="Merk/Type Aset" type="text" name="merk_aset" value="{{old('merk_aset')}}" required/>

@@ -7,9 +7,9 @@ use App\Lokasi;
 use App\FotoAset;
 use App\Kategori;
 use App\Satuankerja;
+use App\Imports\AsetImport;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Imports\AsetImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -68,12 +68,14 @@ class AsetController extends Controller
 
         /** Insert Database */
         $asset = $request->all();
-
         $foto_utama = storeGambar($request->file('foto_utama'));
         $foto_1 = storeGambar($request->file('foto_1'));
         $foto_2 = storeGambar($request->file('foto_2'));
 
-        $asset['kode_asset'] = generateKode($request->tanggal_terima,$request->kode_satuan,$request->nama_asset);
+        if ($asset['kode_asset'] == NULL) {
+            $asset['kode_asset'] = generateKode($request->tanggal_terima,$request->kode_satuan,$request->nama_asset);
+        }
+
         $asset['tanggal_terima'] = dateFormat($request->tanggal_terima);
         $asset['deleted_at'] = NULL;
         $asset['keadaan_awal'] = $request->keadaan_asset;
@@ -121,8 +123,10 @@ class AsetController extends Controller
         $kategori = Kategori::find($aset->kategori);
         $lokasi = Lokasi::find($aset->lokasi_asset);
         $foto = FotoAset::where('kode_asset', $aset->kode_asset)->get();
+        $satker = Satuankerja::get();
         return view('pages.data-asset.detail-aset',[
             'aset' => $objAset,
+            'satker' => $satker,
             'kategori' => $kategori['nama_kategori'],
             'lokasi' => $lokasi['nama_lokasi'],
             'qrCode' => $qrCode,
@@ -210,7 +214,7 @@ class AsetController extends Controller
 
     public function import(Request $request){
         Excel::import(new AsetImport, $request->file('excel'));
-        
+
         return redirect()->back();
         // $this->validate($request, [
         //     'excel' => 'required|mimes:csv,xls,xlsx'
@@ -219,17 +223,17 @@ class AsetController extends Controller
         // $file = $request->file('excel');
         // dump($file);
         // $namaFile = date('Y-M-d').$file->getClientOriginalName();
-        
+
         // if (file_exists(public_path('data_aset/'.$namaFile))) {
-        
+
         // return redirect()->back();
-          
+
         // }
         // else{
         // $file->move('data_aset',$namaFile);
 
         //  Excel::import(new AsetImport, public_path('data_aset/'.$namaFile));
-         
+
         // return redirect()->back();
         // }
     }

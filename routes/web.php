@@ -41,12 +41,12 @@ Route::namespace('Admin')
         Route::get('download-penyusutan', 'CreatePdfController@penyusutan' )->name('download-penyusutan');
         Route::get('download-pdf/{id}', 'CreatePdfController@detail' )->name('download-detail-pdf');
         Route::get('download-pdf', 'CreatePdfController@pdfForm' )->name('download-pdf');
-        
+
         Route::get('download-qrcode', 'CreatePdfController@qrCode' )->name('download-qrcode');
-        
+
         //transfer
 	    Route::get('transfer-aset/{id}','TransferController@index')->name('transfer-aset');
-        Route::patch('transfer-aset/update/{id}', 'TransferController@store');
+        Route::patch('transfer-aset/update/{id}', 'TransferController@store')->name('transfer-aset.update');
         // Import
         Route::post('/import', 'AsetController@import')->name('aset.import');
 

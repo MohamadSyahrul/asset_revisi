@@ -18,7 +18,7 @@
                 @csrf
                   <div class="form-group">
                       <label for="exampleInputText1">Kode Aset</label>
-                      <input type="text" class="form-control" name="kode_asset" id="exampleInputText1" value="Kode Aset(auto generate)" disabled />
+                      <input type="text" class="form-control" name="kode_asset" id="exampleInputText1" value="{{$asset->kode_asset}}" />
                   </div>
                   <div class="form-group">
                     <label>Jenis Aset

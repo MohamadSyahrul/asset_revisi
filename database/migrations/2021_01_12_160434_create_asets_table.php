@@ -17,6 +17,7 @@ class CreateAsetsTable extends Migration
             $table->id();
             $table->string('kode_asset');
             $table->string('nama_asset');
+            $table->string('histori_satuan')->nullable();
             $table->string('kode_satuan');
             $table->boolean('jenis_asset');
             $table->integer('kategori');

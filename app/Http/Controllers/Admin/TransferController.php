@@ -26,11 +26,9 @@ class TransferController extends Controller
             'nama_asset' => 'nullable',
             'tanggal_terima' => 'nullable',
         ]);
-        $asset['kode_asset'] = generateKode($asset->tanggal_terima,
-                                            $request->kode_satuan,
-                                            $asset->nama_asset);
-
+        $asset->histori_satuan = $asset->kode_satuan;
+        $asset->kode_satuan = $request->kode_satuan;
         $asset->update();
-        return redirect('admin/data-asset');
+        return redirect('/data-asset');
     }
 }

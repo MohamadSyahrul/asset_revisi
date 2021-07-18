@@ -29,8 +29,8 @@
 
       <div class="card-body">
         <h6 class="card-title">Data Detail</h6>
-        <div class="float-right">
-          <form action="{{route('aset.import')}}" method="POST" enctype="multipart/form-data">
+        <div class="float-left">
+          <form action="{{route('aset.import')}}" method="POST" enctype="multipart/form-data" class="mb-3">
             @csrf
             <input type="file" name="excel">
             <input type="submit" value="import" class="file-upload-browse btn btn-primary">

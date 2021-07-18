@@ -54,20 +54,32 @@ margin: 1em auto;
 let aset = <?= $asets; ?>;
 let kategori = <?= $kategoris; ?>;
 
-console.log(aset)
-console.log(kategori)
+// console.log(aset)
+// console.log(kategori)
 
 let hasil = []
 
 aset.forEach(element => {
     kategori.forEach(kategoris => {
         if(element.kategori == kategoris.id){
-            hasil.push([kategoris.nama_kategori,element.total])
+            hasil.push([kategoris.kategori,element.total])
         }
     });
 });
 
-console.log(hasil)
+let all = ['Total Aset',0]
+let sum = 0
+
+aset.forEach(element =>{
+    sum +=element.total
+    all.splice(1,1,sum)
+})
+
+// console.log(all)
+
+hasil.unshift(all)
+
+// console.log(hasil)
 
 
  Highcharts.chart('container', {
@@ -144,10 +156,10 @@ Highcharts.chart('kondisi', {
     plotOptions: {
         pie: {
             colors: [
-             '#ff36f2', 
+             '#ff36f2',
              '#0cd2e8',
              '#36ff40',
-             
+
            ],
             allowPointSelect: true,
             cursor: 'pointer',
@@ -200,7 +212,7 @@ Highcharts.chart('jenis', {
     plotOptions: {
         pie: {
             colors: [
-             '#DDDF00', 
+             '#DDDF00',
              '#FF9655'
            ],
             allowPointSelect: true,
